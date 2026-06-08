@@ -10,7 +10,7 @@ engine = create_engine(
 
 SessionLocal = sessionmaker(
     autocommit=False,
-    autocommit=False,
+    autoflush=False,
     bind=engine
 )
 
