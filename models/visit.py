@@ -3,7 +3,7 @@ from database import Base
 from datetime import datetime
 from sqlalchemy.orm import relationship
 
-class visit(Base):
+class Visit(Base):
     __tablename__="visits"
 
     id = Column(Integer, primary_key=True, index=True)
