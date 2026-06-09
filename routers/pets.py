@@ -6,7 +6,7 @@ from schemas.pet import PetCreate , PetResponse
 
 router = APIRouter(
     prefix="/pets",
-    tages=["Pets"]
+    tags=["Pets"]
 )
 
 def get_db():
