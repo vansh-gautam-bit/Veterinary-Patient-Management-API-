@@ -1,6 +1,7 @@
 from sqlalchemy import Column, Integer, String , DateTime
 from database import Base
 from datetime import datetime
+from sqlalchemy.orm import relationship
 
 class Pet(Base):
     __tablename__="pets"
@@ -16,3 +17,5 @@ class Pet(Base):
     owner_phone = Column(String, nullable=False)
 
     created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
+
+    visits = relationship( "Visit", back_populates="pet")
