@@ -5,7 +5,7 @@ class visitBase(BaseModel):
     reason: str
     notes:str
 
-class PetCreate(visitBase):
+class VisitCreate(visitBase):
     pass 
 
 class VisitResponse(visitBase):
