@@ -1,24 +1,21 @@
 from pydantic import BaseModel
 from datetime import datetime
 
-class OwnerUpdate(BaseModel):
-    owner_name: str
-    phone: str
-    email:str
-
-
-
 class OwnerBase(BaseModel):
-    owner_name: str
+    name: str
     phone: str
     email:str
     
+
+class OwnerUpdate(OwnerBase):
+    pass
+
 class OwnerCreate(OwnerBase):
     pass
 
 
 class OwnerResponse(OwnerBase):
-    owner_id: int
+    id: int
     created_at: datetime
 
     class Config:
