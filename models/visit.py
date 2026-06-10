@@ -16,3 +16,5 @@ class Visit(Base):
     created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
 
     pet = relationship("Pet",back_populates="visits")
+
+    pet_id = Column(Integer, ForeignKey("pets.id"),nullable= False)
