@@ -3,6 +3,7 @@ from sqlalchemy.orm import Session
 from database import SessionLocal
 from models.pet import Pet
 from schemas.pet import PetCreate , PetResponse
+from fastapi import HTTPException
 
 router = APIRouter(
     prefix="/pets",
@@ -43,5 +44,17 @@ def get_all_pets(
 
     return pets
 
+@router.get("/{pet_id}",response_model=PetResponse)
+def get_pet(
+    pet_id:int,
+    db: Session = Depends(get_db)
+):
+    pet = db.query(pet).filter(Pet.id == pet_id).first()
 
-
+    if not pet:
+        raise HTTPException(
+            status_code=404,
+            detail="pet not found"
+        )
+    
+    return pet
