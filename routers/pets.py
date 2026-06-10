@@ -34,3 +34,14 @@ def create_pet(
     db.refresh(new_pet)
 
     return new_pet
+
+@router.get("/",response_model=list[PetResponse])
+def get_all_pets(
+    db: Session = Depends(get_db)
+):
+    pets = db.query(Pet).all()
+
+    return pets
+
+
+
