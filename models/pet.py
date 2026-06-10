@@ -13,9 +13,9 @@ class Pet(Base):
     breed = Column(String, nullable=False)
     age = Column(Integer, nullable=False)
 
-    owner_name = Column(String, nullable=False)
-    owner_phone = Column(String, nullable=False)
+    owner_id = Column(Integer, nullable=False)
 
     created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
 
     visits = relationship( "Visit", back_populates="pet")
+    owners = relationship( "owner", back_populates="pet")
