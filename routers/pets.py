@@ -72,12 +72,12 @@ def update_pet(
             stauts_code=404,
             detail="pet not found"
         )
-    pet.name = updated_pet.name
-    pet.species = updated_pet.species
-    pet.breed = updated_pet.breed
+    pet.name = updated_pet.name,
+    pet.species = updated_pet.species,
+    pet.breed = updated_pet.breed,
     pet.age = updated_pet.age
-    pet.owner_name = updated_pet.owner_name
-    pet.owner_phone = updated_pet.owner_phone
+    pet.owner_id = updated_pet.owner_name,
+    
 
     db.commit()
     db.refresh(pet)
