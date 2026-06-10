@@ -83,4 +83,23 @@ def update_pet(
     db.refresh(pet)
 
     return pet
-    
+
+@router.delete("/{pet_id}")
+def delete_pet(
+    pet_id:int,
+    db: Session = Depends(get_db)
+):
+    pet = db.query(pet).filter(Pet.id == pet_id).fierst()
+
+    if not pet:
+        raise HTTPException(
+            status_code=404,
+            detail="Pet not found"
+        )
+
+    db.delete(pet)
+    db.commit()
+
+    return {
+        "message": "Pet deleted successfully"
+    }
