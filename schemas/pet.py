@@ -1,7 +1,7 @@
 from pydantic import BaseModel
 from datetime import datetime
 
-class petupdate(BaseModel):
+class PetUpdate(BaseModel):
     name: str
     species: str
     breed: str
