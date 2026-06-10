@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String , DateTime
+from sqlalchemy import Column, Integer, String , DateTime, ForeignKey
 from database import Base
 from datetime import datetime
 from sqlalchemy.orm import relationship
@@ -18,4 +18,6 @@ class Pet(Base):
     created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
 
     visits = relationship( "Visit", back_populates="pet")
-    owners = relationship( "owner", back_populates="pet")
+    owner = relationship( "Owner", back_populates="pets")
+
+    owner_id = Column(Integer,ForeignKey("owners.id"),nullable=False) 
