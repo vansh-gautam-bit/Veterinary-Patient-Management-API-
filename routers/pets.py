@@ -89,7 +89,7 @@ def delete_pet(
     pet_id:int,
     db: Session = Depends(get_db)
 ):
-    pet = db.query(pet).filter(Pet.id == pet_id).fierst()
+    pet = db.query(pet).filter(Pet.id == pet_id).first()
 
     if not pet:
         raise HTTPException(
