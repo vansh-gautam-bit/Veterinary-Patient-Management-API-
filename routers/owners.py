@@ -97,3 +97,4 @@ def delete_owner(
     return {
         "message": "owner deleted successfully"
     }
+    
