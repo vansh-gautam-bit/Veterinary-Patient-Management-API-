@@ -2,7 +2,7 @@ from fastapi import APIRouter , Depends
 from sqlalchemy.orm import Session
 from database import SessionLocal
 from models.pet import Pet
-from schemas.pet import PetCreate , PetResponse
+from schemas.pet import PetCreate , PetResponse , PetUpdate
 from fastapi import HTTPException
 
 router = APIRouter(
@@ -49,7 +49,7 @@ def get_pet(
     pet_id:int,
     db: Session = Depends(get_db)
 ):
-    pet = db.query(pet).filter(Pet.id == pet_id).first()
+    pet = db.query(Pet).filter(Pet.id == pet_id).first()
 
     if not pet:
         raise HTTPException(
@@ -58,3 +58,29 @@ def get_pet(
         )
     
     return pet
+
+@router.put("/{pet_id}", response_model=PetResponse)
+def update_pet(
+    pet_id:int,
+    updated_pet: PetUpdate,
+    db: Session = Depends(get_db)
+):
+    pet = db.query(Pet).filter(Pet.id == pet_id).first()
+
+    if not pet:
+        raise HTTPException(
+            stauts_code=404,
+            detail="pet not found"
+        )
+    pet.name = updated_pet.name
+    pet.species = updated_pet.species
+    pet.breed = updated_pet.breed
+    pet.age = updated_pet.age
+    pet.owner_name = updated_pet.owner_name
+    pet.owner_phone = updated_pet.owner_phone
+
+    db.commit()
+    db.refresh(pet)
+
+    return pet
+    
