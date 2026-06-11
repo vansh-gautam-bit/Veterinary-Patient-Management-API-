@@ -14,6 +14,9 @@ class VisitResponse(visitBase):
     visit_date: datetime
     created_at: datetime
 
+class VisitUpdate(visitBase):
+    pass    
+
 class Config:
     from_attributes = True    
 
