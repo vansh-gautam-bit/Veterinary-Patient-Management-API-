@@ -13,7 +13,6 @@ class Pet(Base):
     breed = Column(String, nullable=False)
     age = Column(Integer, nullable=False)
 
-    owner_id = Column(Integer, nullable=False)
 
     created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
 
