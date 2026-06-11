@@ -6,18 +6,14 @@ class PetUpdate(BaseModel):
     species: str
     breed: str
     age:int
-    owner_name: str
-    owner_phone: str
-
-
-
+    owner_id:int
+    
 class PetBase(BaseModel):
     name:str
     species:str
     breed:str
     age:int
-    owner_name:str
-    owner_phone:str
+    owner_id:int
 
 class PetCreate(PetBase):
     pass
@@ -26,6 +22,7 @@ class PetCreate(PetBase):
 class PetResponse(PetBase):
     id: int
     created_at: datetime
+    
 
     class Config:
         from_attributes = True
