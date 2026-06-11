@@ -2,7 +2,7 @@ from fastapi import APIRouter , Depends, HTTPException
 from sqlalchemy.orm import Session
 from database import SessionLocal
 from models.visit import Visit
-from schemas.visit import VisitCreate , VisitResponse
+from schemas.visit import VisitCreate , VisitResponse , VisitUpdate
 from models.pet import Pet
 
 
@@ -61,3 +61,48 @@ def get_pet_visist(
     ).all()
 
     return visits
+
+@router.put("/{visit_id}",response_model=VisitResponse)
+def update_visit(
+    visit_id:int,
+    updated_visit:VisitUpdate,
+    db: Session = Depends(get_db)
+):
+    visit = db.query(Visit).filter(Visit.id == visit_id).first()
+
+    if not visit: 
+        raise HTTPException(
+            status_code=404,
+            detail="visit not found"
+        )
+    
+    visit.reason = updated_visit.reason
+    visit.notes = updated_visit.notes
+
+    db.commit()
+    db.refresh(visit)
+
+    return visit
+
+@router.delete("/{visit_id}")
+def deleted_visit(
+    visit_id: int,
+    db: Session = Depends(get_db)
+):
+    visit = db.query(Visit).filter(Visit.id == visit_id).first()
+
+    if not visit:
+        raise HTTPException(
+            status_code=404,
+            detail="visit not found"
+        )
+    
+    db.delete(visit)
+    db.commit()
+    
+    return {
+        "message" : "Visit deleted Succesfully"
+    }
+
+
+
