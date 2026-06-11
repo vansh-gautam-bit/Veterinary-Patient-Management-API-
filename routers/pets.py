@@ -37,9 +37,31 @@ def create_pet(
 
 @router.get("/",response_model=list[PetResponse])
 def get_all_pets(
+    species: str = None,
+    breed: str = None,
+    min_age: int = None,
+    max_age: int = None,
+    search : str = None,
     db: Session = Depends(get_db)
 ):
-    pets = db.query(Pet).all()
+    query = db.query(Pet)
+
+    if  species:
+        query = query.filter(Pet.species == species)
+
+    if breed:
+        query = query.filter(Pet.breed == breed)
+
+    if min_age:
+        query= query.filter(Pet.age >= min_age)
+
+    if max_age:
+        query = query.filter(Pet.age <= max_age)  
+
+    if search:
+        query = query.filter(Pet.name.ilike(f"%{search}%"))    
+
+    pets = query.all()          
 
     return pets
 
