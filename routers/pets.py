@@ -42,6 +42,8 @@ def get_all_pets(
     min_age: int = None,
     max_age: int = None,
     search : str = None,
+    limit : int =None,
+    page : int = None,
     db: Session = Depends(get_db)
 ):
     query = db.query(Pet)
@@ -59,7 +61,10 @@ def get_all_pets(
         query = query.filter(Pet.age <= max_age)  
 
     if search:
-        query = query.filter(Pet.name.ilike(f"%{search}%"))    
+        query = query.filter(Pet.name.ilike(f"%{search}%"))   
+
+    offset = (page - 1) * limit
+    query = query.offset(offset).limit(limit)     
 
     pets = query.all()          
 
