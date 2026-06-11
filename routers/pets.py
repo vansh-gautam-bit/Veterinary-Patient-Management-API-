@@ -27,8 +27,7 @@ def create_pet(
         species=pet.species,
         breed=pet.breed,
         age=pet.age,
-        owner_name=pet.owner_name,
-        owner_phone=pet.owner_phone
+        owner_id=pet.owner_id
     )            
     db.add(new_pet)
     db.commit()
@@ -72,11 +71,11 @@ def update_pet(
             stauts_code=404,
             detail="pet not found"
         )
-    pet.name = updated_pet.name,
-    pet.species = updated_pet.species,
-    pet.breed = updated_pet.breed,
+    pet.name = updated_pet.name
+    pet.species = updated_pet.species
+    pet.breed = updated_pet.breed
     pet.age = updated_pet.age
-    pet.owner_id = updated_pet.owner_name,
+    pet.owner_id = updated_pet.owner_id
     
 
     db.commit()
