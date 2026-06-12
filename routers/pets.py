@@ -42,8 +42,10 @@ def get_all_pets(
     min_age: int = None,
     max_age: int = None,
     search : str = None,
-    limit : int =None,
-    page : int = None,
+    sort_by : str =None,
+    sort_order : str = None,
+    limit : int = 10,
+    page : int = 1,
     db: Session = Depends(get_db)
 ):
     query = db.query(Pet)
@@ -62,6 +64,30 @@ def get_all_pets(
 
     if search:
         query = query.filter(Pet.name.ilike(f"%{search}%"))   
+
+    if sort_by == "name":
+
+        if sort_order == "desc":
+            query = query.order_by(Pet.name.desc())
+
+        else:
+            query = query.order_by(Pet.name)   
+
+    elif sort_by == "age":
+
+        if sort_order == "desc":
+            query = query.order_by(Pet.age.desc())
+
+        else:
+            query = query.order_by(Pet.age)  
+
+    elif sort_by == "created_at":
+
+        if sort_order == "desc":
+            query = query.order_by(Pet.created_at.desc())
+
+        else:
+            query = query.order_by(Pet.created_at)                           
 
     offset = (page - 1) * limit
     query = query.offset(offset).limit(limit)     
