@@ -48,7 +48,7 @@ def get_all_pets(
     page : int = 1,
     db: Session = Depends(get_db)
 ):
-    query = db.query(Pet)
+    query = db.query(Pet).filter(Pet.is_deleted == False)
 
     if  species:
         query = query.filter(Pet.species == species)
@@ -101,7 +101,7 @@ def get_pet(
     pet_id:int,
     db: Session = Depends(get_db)
 ):
-    pet = db.query(Pet).filter(Pet.id == pet_id).first()
+    pet = db.query(Pet).filter(Pet.id == pet_id, Pet.is_deleted == False).first()
 
     if not pet:
         raise HTTPException(
@@ -141,7 +141,7 @@ def delete_pet(
     pet_id:int,
     db: Session = Depends(get_db)
 ):
-    pet = db.query(pet).filter(Pet.id == pet_id).first()
+    pet = db.query(Pet).filter(Pet.id == pet_id).first()
 
     if not pet:
         raise HTTPException(
@@ -149,8 +149,9 @@ def delete_pet(
             detail="Pet not found"
         )
 
-    db.delete(pet)
+    pet.is_deleted = True
     db.commit()
+    db.refresh(pet)
 
     return {
         "message": "Pet deleted successfully"
