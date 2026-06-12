@@ -14,8 +14,10 @@ class VisitResponse(visitBase):
     visit_date: datetime
     created_at: datetime
 
-class VisitUpdate(visitBase):
-    pass    
+class VisitUpdate(BaseModel):
+    reason: str
+    notes:str
+    visit_date: datetime
 
 class Config:
     from_attributes = True    
