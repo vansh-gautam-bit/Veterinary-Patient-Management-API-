@@ -1,7 +1,6 @@
-from fastapi import FastAPI
+from fastapi import FastAPI , HTTPException , Request
+from fastapi.responses import JSONResponse
 from database import Base , engine
-from models.pet import Pet
-from models.visit import Visit
 from routers.pets import router as pet_router
 from routers.visits import router as visit_router
 from routers.owners import router as owner_router
@@ -21,3 +20,16 @@ def root():
     return {
         "message": "Veterinary Patient Management API is running"
     }
+
+@app.exception_handler(HTTPException)
+async def http_exception_handler(
+    request:Request,
+    exc: HTTPException
+):
+    return JSONResponse(
+        status_code=exc.status_code,
+        content={
+            "success":False,
+            "message": exc.detail
+        }
+    )
