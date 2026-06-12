@@ -78,6 +78,7 @@ def update_visit(
     
     visit.reason = updated_visit.reason
     visit.notes = updated_visit.notes
+    visit.visit_date = updated_visit.visit_date
 
     db.commit()
     db.refresh(visit)
