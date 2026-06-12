@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String , DateTime, ForeignKey
+from sqlalchemy import Column, Integer, String , DateTime, ForeignKey , Boolean
 from database import Base
 from datetime import datetime
 from sqlalchemy.orm import relationship
@@ -12,6 +12,7 @@ class Pet(Base):
     species  = Column(String, nullable=False)
     breed = Column(String, nullable=False)
     age = Column(Integer, nullable=False)
+    is_deleted = Column(Boolean,nullable=False , default=False)
 
 
     created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
