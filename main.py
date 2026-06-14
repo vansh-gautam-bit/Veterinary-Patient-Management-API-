@@ -4,6 +4,7 @@ from database import Base , engine
 from routers.pets import router as pet_router
 from routers.visits import router as visit_router
 from routers.owners import router as owner_router
+import time
 
 Base.metadata.create_all(bind=engine)
 
@@ -33,3 +34,19 @@ async def http_exception_handler(
             "message": exc.detail
         }
     )
+
+@app.middleware("http")
+async def log_requests(request, call_next):
+
+    start_time = time.time()
+    response = await call_next(request)
+    response_time = time.time() - start_time
+
+    print(f"Request: {request.method} |"
+          f"{request.url.path} |"
+          f"{response.status_code} |"
+          f"{response_time:.4f} sec|"
+
+          )
+    
+    return response
