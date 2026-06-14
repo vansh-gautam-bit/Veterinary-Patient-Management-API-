@@ -14,6 +14,7 @@ class Visit(Base):
 
     visit_date = Column(DateTime, default=datetime.utcnow, nullable=False)
     created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
+    updated_at = Column(DateTime,default=datetime.utcnow,unique=True,nullable=False)
 
     pet = relationship("Pet",back_populates="visits")
 
