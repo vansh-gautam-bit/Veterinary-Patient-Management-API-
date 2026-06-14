@@ -14,8 +14,8 @@ class Pet(Base):
     age = Column(Integer, nullable=False)
     is_deleted = Column(Boolean,nullable=False , default=False)
 
-
     created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
+    updated_at = Column(DateTime,default=datetime.utcnow,unique=True,nullable=False )
 
     visits = relationship( "Visit", back_populates="pet")
     owner = relationship( "Owner", back_populates="pets")
