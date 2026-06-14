@@ -18,6 +18,7 @@ class VisitUpdate(BaseModel):
     reason: str
     notes:str
     visit_date: datetime
+    updated_at: datetime
 
 class Config:
     from_attributes = True    
