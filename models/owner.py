@@ -13,5 +13,6 @@ class Owner(Base):
     email = Column(String, nullable=False)
 
     created_at = Column(DateTime, unique=True, default=datetime.utcnow, nullable=False)
+    updated_at = Column(DateTime,unique =True, nullable =False, default= datetime.utcnow )
 
     pets = relationship( "Pet", back_populates="owner")
