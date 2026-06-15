@@ -53,7 +53,7 @@ def get_pet_visist(
     if not pet:
         raise HTTPException(
             status_code=404,
-            detail="Pet not found"
+            detail="Visit not found"
         )
     
     visits = db.query(Visit).filter(
