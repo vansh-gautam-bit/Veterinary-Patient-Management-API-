@@ -6,7 +6,7 @@ DATABASE_URL = settings.DATABASE_URL
 
 engine = create_engine(
     DATABASE_URL,
-    connect_args={"check_same_thread":False}
+   # connect_args={"check_same_thread":False}                   We dont use this in PostgresSQL, only in SQLite
 )
 
 SessionLocal = sessionmaker(
