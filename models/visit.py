@@ -8,13 +8,12 @@ class Visit(Base):
 
     id = Column(Integer, primary_key=True, index=True)
 
-    pet_id  = Column(Integer, ForeignKey("pets.id"), nullable=False)
     reason  = Column(String, nullable=False)
-    notes = Column(Integer, nullable=True)
+    notes = Column(String, nullable=True)
 
     visit_date = Column(DateTime, default=datetime.utcnow, nullable=False)
     created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
-    updated_at = Column(DateTime,default=datetime.utcnow,unique=True,nullable=False)
+    updated_at = Column(DateTime,default=datetime.utcnow,onupdate=datetime.utcnow,nullable=False)
 
     pet = relationship("Pet",back_populates="visits")
 
