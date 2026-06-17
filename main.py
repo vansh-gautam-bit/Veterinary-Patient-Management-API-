@@ -4,6 +4,7 @@ from database import Base , engine
 from routers.pets import router as pet_router
 from routers.visits import router as visit_router
 from routers.owners import router as owner_router
+from routers.users import router as user_router
 import time
 
 Base.metadata.create_all(bind=engine)
@@ -15,6 +16,7 @@ app=FastAPI(
 app.include_router(pet_router)
 app.include_router(visit_router)
 app.include_router(owner_router)
+app.include_router(user_router)
 
 @app.get("/",tags = ["Json Page"])
 def root():
