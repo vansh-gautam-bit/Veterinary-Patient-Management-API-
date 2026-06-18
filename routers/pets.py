@@ -4,6 +4,8 @@ from database import SessionLocal
 from models.pet import Pet
 from schemas.pet import PetCreate , PetResponse , PetUpdate
 from fastapi import HTTPException
+from routers.users import get_current_user
+from models.user import User
 
 router = APIRouter(
     prefix="/pets",
@@ -20,7 +22,8 @@ def get_db():
 @router.post("/", response_model=PetResponse)
 def create_pet(
     pet: PetCreate,
-    db: Session = Depends(get_db )
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user)
 ):
     new_pet = Pet(
         name=pet.name,
@@ -115,7 +118,8 @@ def get_pet(
 def update_pet(
     pet_id:int,
     updated_pet: PetUpdate,
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user)
 ):
     pet = db.query(Pet).filter(Pet.id == pet_id).first()
 
@@ -139,7 +143,8 @@ def update_pet(
 @router.delete("/{pet_id}")
 def delete_pet(
     pet_id:int,
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user)
 ):
     pet = db.query(Pet).filter(Pet.id == pet_id).first()
 
