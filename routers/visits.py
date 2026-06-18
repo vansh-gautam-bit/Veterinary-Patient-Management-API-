@@ -4,6 +4,8 @@ from database import SessionLocal
 from models.visit import Visit
 from schemas.visit import VisitCreate , VisitResponse , VisitUpdate
 from models.pet import Pet
+from models.user import User
+from routers.users import get_current_user
 
 
 router=APIRouter(
@@ -22,7 +24,8 @@ def get_db():
 def create_visit(
     pet_id:int,
     visit: VisitCreate,
-    db: Session = Depends(get_db)    
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user)    
 ):
     pet = db.query(Pet).filter(Pet.id == pet_id).first()
 
@@ -66,7 +69,8 @@ def get_pet_visist(
 def update_visit(
     visit_id:int,
     updated_visit:VisitUpdate,
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user)
 ):
     visit = db.query(Visit).filter(Visit.id == visit_id).first()
 
@@ -88,7 +92,8 @@ def update_visit(
 @router.delete("/{visit_id}")
 def deleted_visit(
     visit_id: int,
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user)
 ):
     visit = db.query(Visit).filter(Visit.id == visit_id).first()
 
