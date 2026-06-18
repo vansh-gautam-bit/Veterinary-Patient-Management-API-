@@ -4,6 +4,8 @@ from database import SessionLocal
 from models.owner import Owner
 from schemas.owner import OwnerCreate , OwnerResponse , OwnerUpdate
 from fastapi import HTTPException
+from models.user import User
+from routers.users import get_current_user
 
 router = APIRouter(
     prefix="/owners",
@@ -20,7 +22,8 @@ def get_db():
 @router.post("/", response_model=OwnerResponse)
 def create_owner(
     owner: OwnerCreate,
-    db: Session = Depends(get_db )
+    db: Session = Depends(get_db),
+    current_user : User = Depends(get_current_user)
 ):
     new_owner = Owner(
         name= owner.name,
@@ -60,7 +63,8 @@ def get_owner(
 def update_owner(
     owner_id:int,
     updated_owner: OwnerUpdate,
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
+    current_user : User = Depends(get_current_user)
 ):
     owner = db.query(Owner).filter(Owner.id == owner_id).first()
 
@@ -81,7 +85,8 @@ def update_owner(
 @router.delete("/{owner_id}")
 def delete_owner(
     owner_id:int,
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user)
 ):
     owner = db.query(Owner).filter(Owner.id == owner_id).first()
 
