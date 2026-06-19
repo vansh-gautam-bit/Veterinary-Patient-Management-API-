@@ -8,6 +8,7 @@ from utils.security import hash_password
 from utils.security import verify_password , create_access_token
 from jose import JWTError, jwt
 from config import settings
+from utils.logger import logger
 
 
 from fastapi.security import OAuth2PasswordBearer , OAuth2PasswordRequestForm
@@ -94,6 +95,10 @@ def login_user(
     user = db.query(User).filter(User.email == form_data.username).first()
 
     if not user:
+
+        logger.warning(
+            f"Login failed. User not found: {form_data.username}"
+        )
         raise HTTPException(
             status_code=404,
             detail="User not found"
@@ -103,6 +108,10 @@ def login_user(
         form_data.password,
         user.password_hash
     ):
+        logger.warning(
+            f"Invalid password  for:{user.email}"
+        )
+
         raise HTTPException(
             status_code=401,
             detail="Invalid credentials"
@@ -115,6 +124,10 @@ def login_user(
             "role":user.role.value
             }
     )    
+
+    logger.info(
+        f"User logged in: {user.email}"
+    )
     
     return{
         "access_token":access_token,
