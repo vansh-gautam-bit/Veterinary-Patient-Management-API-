@@ -6,6 +6,7 @@ from schemas.owner import OwnerCreate , OwnerResponse , OwnerUpdate
 from fastapi import HTTPException
 from models.user import User
 from routers.users import get_current_user
+from models.pet import Pet
 
 router = APIRouter(
     prefix="/owners",
@@ -40,7 +41,7 @@ def create_owner(
 def get_all_owners(
     db: Session = Depends(get_db)
 ):
-    owners = db.query(Owner).all()
+    owners = db.query(Owner).filter(Owner.is_deleted==False).all()
 
     return owners
 
@@ -49,7 +50,7 @@ def get_owner(
     owner_id:int,
     db: Session = Depends(get_db)
 ):
-    owner = db.query(Owner).filter(Owner.id == owner_id).first()
+    owner = db.query(Owner).filter(Owner.id == owner_id,Owner.is_deleted==False).first()
 
     if not owner:
         raise HTTPException(
@@ -66,7 +67,7 @@ def update_owner(
     db: Session = Depends(get_db),
     current_user : User = Depends(get_current_user)
 ):
-    owner = db.query(Owner).filter(Owner.id == owner_id).first()
+    owner = db.query(Owner).filter(Owner.id == owner_id,Owner.is_deleted==False).first()
 
     if not owner:
         raise HTTPException(
@@ -88,18 +89,31 @@ def delete_owner(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user)
 ):
-    owner = db.query(Owner).filter(Owner.id == owner_id).first()
+    owner = db.query(Owner).filter(Owner.id == owner_id,Owner.is_deleted == False).first()
 
     if not owner:
         raise HTTPException(
             status_code=404,
             detail="Owner not found"
         )
+    
+    active_pets = db.query(Pet).filter(
+        Pet.owner_id == owner_id,
+        Pet.is_deleted == False
+    ).all()
+    
+    if active_pets:
+        raise HTTPException(
+            status_code=400,
+            detail="Cannot delete owner with pets"
+        )
 
-    db.delete(owner)
+    owner.is_deleted = True
+
     db.commit()
+    db.refresh(owner)
 
     return {
         "message": "owner deleted successfully"
     }
-    
+
