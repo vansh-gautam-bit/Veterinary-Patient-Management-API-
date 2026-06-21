@@ -137,3 +137,9 @@ Standard error format:
   "message": "Error message"
 }
 ```
+## Running the Docker
+
+```bash
+docker build -t vet-api .
+docker run --env-file .env -p 8000:8000 vet-api
+```
