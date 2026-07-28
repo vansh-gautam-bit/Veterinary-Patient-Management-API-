@@ -24,7 +24,7 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=[
         "http://localhost:5173",
-        "",
+        "https://id-preview-ae1d4e9b-122a-4bd8-9264-b23ac7416bfb.lovable.app",
     ],
     allow_credentials=True,
     allow_methods=["*"],
