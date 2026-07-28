@@ -1,7 +1,7 @@
 from fastapi import FastAPI , HTTPException , Request
 from fastapi.responses import JSONResponse
 from fastapi.exceptions import RequestValidationError 
-
+from fastapi.middleware.cors import CORSMiddleware
 from database import Base , engine
 
 from routers.pets import router as pet_router
@@ -18,6 +18,17 @@ Base.metadata.create_all(bind=engine)
 
 app=FastAPI(
     title = "Veterinary Patient Management API"
+)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[
+        "http://localhost:5173",
+        "https://your-lovable-project.lovable.app",
+    ],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 app.include_router(pet_router)
