@@ -27,6 +27,7 @@ app.add_middleware(
         "https://vet-pals-clinic.lovable.app",
         "https://id-preview--ae1d4e9b-122a-4bd8-9264-b23ac7416bfb.lovable.app",
         "https://id-preview-ae1d4e9b-122a-4bd8-9264-b23ac7416bfb.lovable.app",
+        "https://ae1d4e9b-122a-4bd8-9264-b23ac7416bfb.lovableproject.com",
     ],
     allow_credentials=True,
     allow_methods=["*"],
